@@ -195,7 +195,6 @@ describe('Nombre del personaje.', () => {
 
 describe('Información de la película con nombres de los personajes.', () => {
     test('7-More info con nombre de los personajes', async () => {
-        jest.setTimeout(10000);
         const actual = await pec2.getMovieCharacters(1);
         expect(actual).toEqual(
             {
@@ -226,7 +225,7 @@ describe('Nombre del planeta.', () => {
 
 describe('Información de la película con nombres de los personajes y su lugar de nadimiento.', () => {
     test('9-More info con nombre de los personajes y planeta de nacimiento', async () => {
-        jest.setTimeout(32000);
+        jest.setTimeout(6000);
         const actual = await pec2.getMovieCharactersAndHomeworlds(1);
         expect(actual).toEqual(
             {
@@ -266,9 +265,7 @@ describe('Creación de una película.', () => {
 
 describe('Nombre de los personajes que salen en la peícula.', () => {
     test('11- Nombre de los personajes de una película', async () => {
-        jest.setTimeout(10000);
         const actual = await pec2.createMovie(1);
-
         expect(await actual.getCharacters()).toEqual(expect.arrayContaining(
             [
                 'Luke Skywalker', 'C-3PO',
@@ -287,7 +284,6 @@ describe('Nombre de los personajes que salen en la peícula.', () => {
 
 describe('Nombre de los planetas de los personajes que salen en la peícula.', () => {
     test('12- Nombre de los planetas de los personajes de una pelíicula', async () => {
-        jest.setTimeout(25000);
         const actual = await pec2.createMovie(1);
         expect(await actual.getHomeworlds()).toEqual(expect.arrayContaining(
             [
@@ -307,7 +303,6 @@ describe('Nombre de los planetas de los personajes que salen en la peícula.', (
 
 describe('Nombre de los planetas de los personajes que salen en la peícula ordenados del reves.', () => {
     test('13- Nombre de los planetas de los personajes de una pelíicula ordenados del reves.', async () => {
-        jest.setTimeout(25000);
         const actual = await pec2.createMovie(1);
         expect(await actual.getHomeworldsReverse()).toEqual(expect.arrayContaining(
             [

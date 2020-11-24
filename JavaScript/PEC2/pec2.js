@@ -8,21 +8,14 @@ class Movie {
 
     //Obtenemos todods los personajes de esta película
     async getCharacters() {
-        var personajes = [];
-        for (var i = 0; i < this.characters.length; i++) {
-            personajes.push(await getCharacterName(this.characters[i]));
-        }
-        return personajes
+        return await Promise.all(this.characters.map(getCharacterName));
     }
 
     //Obtenemos todos los planetas donde han nacido los personajes de esta pelicula
     async getHomeworlds() {
-        var planetas = []
-        for (var i = 0; i < this.characters.length; i++) {
-            planetas.push(await getNameOfPlanetForPerson(this.characters[i]));
-        }
-        return planetas
+        return await Promise.all(this.characters.map(getNameOfPlanetForPerson));
     }
+
     //Obtenemos todos los planetas donde han nacido los personajes de esta pelicula
     //Ordenadas alfabeticamente al contrario
     async getHomeworldsReverse() {
@@ -149,18 +142,27 @@ async function getNameOfPlanetForPerson(url) {
 async function getMovieCharacters(id) {
 
     var peliculas = await getMovieInfo(id);
+    peliculas.characters = await Promise.all(peliculas.characters.map(getCharacterName));
+
+    return peliculas;
+    /*
     for (var i = 0; i < peliculas.characters.length; i++) {
         peliculas.characters[i] = await getCharacterName(peliculas.characters[i]);
     }
-    return peliculas;
+    */
+
 }
 
 async function getMovieCharactersAndHomeworlds(id) {
     var peliculas = await getMovieInfo(id);
+
+    var nombres = await Promise.all(peliculas.characters.map(getCharacterName));
+    var planetas = await Promise.all(peliculas.characters.map(getNameOfPlanetForPerson));
+
     for (var i = 0; i < peliculas.characters.length; i++) {
         var film = new Object();
-        film['name'] = await getCharacterName(peliculas.characters[i]);
-        film['homeworld'] = await getNameOfPlanetForPerson(peliculas.characters[i]);
+        film['name'] = nombres[i];
+        film['homeworld'] = planetas[i];
         peliculas.characters[i] = film;
     }
     return peliculas;
@@ -203,6 +205,7 @@ listMoviesSorted()
 
 listEvenMoviesSorted()
     .then(data => console.log(data));
+
 getMovieInfo(1)
     .then(data => console.log(data));
 
